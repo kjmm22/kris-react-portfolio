@@ -1,8 +1,27 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom'
+import App from './App'
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+jest.mock('gsap-trial', () => ({
+  registerPlugin: () => {},
+  timeline: () => ({
+    to: () => ({
+      from: () => ({}),
+    }),
+  }),
+  from: () => {},
+  fromTo: () => {},
+  set: () => {},
+}))
+jest.mock('gsap-trial/DrawSVGPlugin', () => ({}))
+
+test('renders contact button', () => {
+  render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>
+  )
+  const linkElement = screen.getByText(/CONTACT ME/i)
+  expect(linkElement).toBeInTheDocument()
+})
